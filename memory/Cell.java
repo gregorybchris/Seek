@@ -2,7 +2,7 @@ package memory;
 
 import java.util.Random;
 
-public class Graph {
+public class Cell {
 	private Random random = new Random();
 
 	private int numMoves;
@@ -21,7 +21,13 @@ public class Graph {
 	/* The index of the least probable move in the topMoves list */
 	private int lastTopIndex;
 
-	public Graph(int numMoves, int numtopMoves, double eta) {
+	/*
+	 * Cell constructor
+	 * Takes in the number of types of movement to track, the number
+	 * 	of most probable movements to track, and how aggressively
+	 * 	the algorithm should learn
+	 */
+	public Cell(int numMoves, int numtopMoves, double eta) {
 		assert(numMoves > 0 && numtopMoves > 0);
 		assert(numtopMoves < numMoves);
 		assert(eta > 0.0 && eta < 1.0);
@@ -46,7 +52,7 @@ public class Graph {
 	}
 
 	/*
-	 * Inserts a new movement into the graph by increasing the probability
+	 * Inserts a new movement into the Cell by increasing the probability
 	 * 	of that movement and decreasing the probability of other movements
 	 * 	Movements will always have a probability between 0 and 1.0 inclusive
 	 * 	The total probability will be between 0 and the number of movements
@@ -154,6 +160,9 @@ public class Graph {
 		return toJSON();
 	}
 	
+	/*
+	 * Converts the Cell to a JSON object
+	 */
 	public String toJSON() {
 		String stringRep = "\t\t { \n";
 		stringRep += "\t\t\t \"numMoves\": " + numMoves + ", \n";

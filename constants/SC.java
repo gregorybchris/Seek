@@ -13,7 +13,7 @@ public class SC {
 	/* The halted movement (MOVE_H) IS included in this */
 	public static final int NUM_MOVEMENTS = 5;
 	
-	/* The number of most probable movements to keep track of */
+	/* The number of most probable movements to track */
 	public static final int NUM_TOP_VALUES = 3;
 	
 	/* Determines how aggressively the algorithm learns */

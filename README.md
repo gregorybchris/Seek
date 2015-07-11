@@ -17,7 +17,7 @@ public static final int COLS = 20;
 ~ ~ The number of directions of travel possible ~ ~
 public static final int NUM_MOVEMENTS = 5;
 
-~ ~ The number of most probable movements kept ready to access ~ ~
+~ ~ The number of most probable movements to track ~ ~
 public static final int NUM_TOP_VALUES = 3;
 
 ~ ~ Determines how aggressively the algorithm learns ~ ~

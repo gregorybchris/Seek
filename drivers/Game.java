@@ -13,6 +13,9 @@ public class Game {
 	private int y;
 	private int speed;
 
+	/*
+	 * Game constructor
+	 */
 	public Game() {
 		in = new Scanner(System.in);
 		memory = new Memory(SC.WIDTH, SC.HEIGHT, SC.ROWS, SC.COLS, 
@@ -22,9 +25,10 @@ public class Game {
 		speed = 10;
 	}
 
+	/*
+	 * Starts the testing 
+	 */
 	public void play() {
-		
-
 		while (true) {
 			System.out.println(memory);
 			System.out.println("X=" + x + ", Y=" + y);
@@ -61,6 +65,10 @@ public class Game {
 				}
 				else
 					System.out.println("Bump!");
+			}
+			else if (line.equals("q")) {
+				
+				System.exit(0);
 			}
 			else
 				System.out.println("Invalid movement!");

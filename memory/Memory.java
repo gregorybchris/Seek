@@ -1,6 +1,10 @@
 package memory;
 
-public class Memory {
+import java.io.Serializable;
+
+public class Memory implements Serializable {
+	private static final long serialVersionUID = 3200232337624988754L;
+	
 	private int width;
 	private int height;
 	private int rows;
@@ -10,7 +14,7 @@ public class Memory {
 	private int numTopMoves;
 	private double eta;
 	
-	private Graph[][] graphs;
+	private Cell[][] Cells;
 
 	/*
 	 * Memory constructor
@@ -34,23 +38,23 @@ public class Memory {
 		this.numTopMoves = numTopMoves;
 		this.eta = eta;
 
-		graphs = new Graph[cols][rows];
+		Cells = new Cell[cols][rows];
 		for (int y = 0; y < rows; y++)
 			for (int x = 0; x < cols; x++)
-				graphs[x][y] = new Graph(numMoves, numTopMoves, eta);
+				Cells[x][y] = new Cell(numMoves, numTopMoves, eta);
 	}
 
 	/*
-	 * Inserts the motion into the graph for the given location
+	 * Inserts the motion into the Cell for the given location
 	 */
 	public void put(int x, int y, int movement) {
 		assert(x >= 0 && x < width && y >= 0 && y < height);
 		assert(movement >= 0 && movement < numMoves);
 
-		int graphCol = x / (width / cols);
-		int graphRow = y / (height / rows);
+		int CellCol = x / (width / cols);
+		int CellRow = y / (height / rows);
 
-		graphs[graphCol][graphRow].put(movement);
+		Cells[CellCol][CellRow].put(movement);
 	}
 
 	/*
@@ -60,10 +64,10 @@ public class Memory {
 	public int get(int x, int y) {
 		assert(x >= 0 && x < width && y >= 0 && y < height);
 
-		int graphCol = x / (width / cols);
-		int graphRow = y / (height / rows);
+		int CellCol = x / (width / cols);
+		int CellRow = y / (height / rows);
 
-		return graphs[graphCol][graphRow].get();
+		return Cells[CellCol][CellRow].get();
 	}
 	
 	@Override
@@ -71,6 +75,9 @@ public class Memory {
 		return toJSON();
 	}
 	
+	/*
+	 * Converts the Memory to a JSON object
+	 */
 	public String toJSON() {
 		String stringRep = "{ \n";
 		stringRep += "\t \"width\": " + width + ", \n";
@@ -80,10 +87,10 @@ public class Memory {
 		stringRep += "\t \"numMoves\": " + numMoves + ", \n";
 		stringRep += "\t \"numTopMoves\": " + numTopMoves + ", \n";
 		stringRep += "\t \"eta\": " + eta + ", \n";
-		stringRep += "\t \"graphs\": [ \n";
+		stringRep += "\t \"Cells\": [ \n";
 		for (int y = 0; y < rows; y++) {
 			for (int x = 0; x < cols; x++) {
-				stringRep += graphs[x][y].toString();
+				stringRep += Cells[x][y].toString();
 				if (x != rows - 1 || y != cols - 1)
 					stringRep += ", \n";
 				else
