@@ -6,8 +6,8 @@ public class Memory {
 	private int rows;
 	private int cols;
 
-	private int numMovements;
-	private int numTopValues;
+	private int numMoves;
+	private int numTopMoves;
 	private double eta;
 	
 	private Graph[][] graphs;
@@ -19,38 +19,38 @@ public class Memory {
 	 * 	the number of types of movement to
 	 */
 	public Memory(int width, int height, int rows, int cols, 
-			int numMovements, int numTopValues, double eta) {
+			int numMoves, int numTopMoves, double eta) {
 		assert(width > 0 && height > 0 && rows > 0 && cols > 0);
 		assert(cols < width && rows < height);
-		assert(numMovements > 0 && numTopValues > 0);
-		assert(numTopValues < numMovements);
+		assert(numMoves > 0 && numTopMoves > 0);
+		assert(numTopMoves < numMoves);
 
 		this.width = width;
 		this.height = height;
 		this.rows = rows;
 		this.cols = cols;
 
-		this.numMovements = numMovements;
-		this.numTopValues = numTopValues;
+		this.numMoves = numMoves;
+		this.numTopMoves = numTopMoves;
 		this.eta = eta;
 
 		graphs = new Graph[cols][rows];
 		for (int y = 0; y < rows; y++)
 			for (int x = 0; x < cols; x++)
-				graphs[x][y] = new Graph(numMovements, numTopValues, eta);
+				graphs[x][y] = new Graph(numMoves, numTopMoves, eta);
 	}
 
 	/*
 	 * Inserts the motion into the graph for the given location
 	 */
-	public void insert(int x, int y, int movement) {
-		assert(x >= 0 && x <= width && y >= 0 && y <= height);
-		assert(movement >= 0 && movement < numMovements);
+	public void put(int x, int y, int movement) {
+		assert(x >= 0 && x < width && y >= 0 && y < height);
+		assert(movement >= 0 && movement < numMoves);
 
 		int graphCol = x / (width / cols);
 		int graphRow = y / (height / rows);
 
-		graphs[graphCol][graphRow].insert(movement);
+		graphs[graphCol][graphRow].put(movement);
 	}
 
 	/*
@@ -58,23 +58,27 @@ public class Memory {
 	 * 	Note: this output is non-deterministic
 	 */
 	public int get(int x, int y) {
-		assert(x >= 0 && x <= width && y >= 0 && y <= height);
+		assert(x >= 0 && x < width && y >= 0 && y < height);
 
 		int graphCol = x / (width / cols);
 		int graphRow = y / (height / rows);
 
 		return graphs[graphCol][graphRow].get();
 	}
-
+	
 	@Override
 	public String toString() {
+		return toJSON();
+	}
+	
+	public String toJSON() {
 		String stringRep = "{ \n";
 		stringRep += "\t \"width\": " + width + ", \n";
 		stringRep += "\t \"height\": " + height + ", \n";
 		stringRep += "\t \"rows\": " + rows + ", \n";
 		stringRep += "\t \"cols\": " + cols + ", \n";
-		stringRep += "\t \"numMovements\": " + numMovements + ", \n";
-		stringRep += "\t \"numTopValues\": " + numTopValues + ", \n";
+		stringRep += "\t \"numMoves\": " + numMoves + ", \n";
+		stringRep += "\t \"numTopMoves\": " + numTopMoves + ", \n";
 		stringRep += "\t \"eta\": " + eta + ", \n";
 		stringRep += "\t \"graphs\": [ \n";
 		for (int y = 0; y < rows; y++) {

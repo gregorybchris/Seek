@@ -49,9 +49,9 @@ public class Graph {
 	 * Inserts a new movement into the graph by increasing the probability
 	 * 	of that movement and decreasing the probability of other movements
 	 * 	Movements will always have a probability between 0 and 1.0 inclusive
-	 * 	However, the total probability will be around, maybe not exactly, 1.0
+	 * 	The total probability will be between 0 and the number of movements
 	 */
-	public void insert(int mv) {
+	public void put(int mv) {
 		assert(mv >= 0 && mv < numMoves);
 
 		/* Make changes if the movement has less than 100% probability */
@@ -63,19 +63,13 @@ public class Graph {
 
 			/* Update the probability of all other movements */
 			double offset = eta / numMoves;
-			double checksum = 0;
 			for (int i = 0; i < numMoves; i++) {
 				if (moveProbs[i] != 0.0 && i != mv) {
 					moveProbs[i] -= offset;
 					if (moveProbs[i] < 0.0)
 						moveProbs[i] = 0.0;
 				}
-
-				checksum += moveProbs[i];
 			}
-
-			/* Determine how close the graph is to total probability = 1.0 */
-			System.out.println("Test: Graph checksum = " + checksum);
 
 			addToTops(mv);
 		}
@@ -143,7 +137,7 @@ public class Graph {
 		
 		double probabilityAccumulator = 0;
 		for (int i = 0; i < numMoves; i++) {
-			probabilityAccumulator += moveProbs[i];
+			probabilityAccumulator += moveProbs[i] / numMoves;
 			if (randDouble < probabilityAccumulator)
 				return i;
 		}
@@ -157,24 +151,31 @@ public class Graph {
 
 	@Override
 	public String toString() {
+		return toJSON();
+	}
+	
+	public String toJSON() {
 		String stringRep = "\t\t { \n";
 		stringRep += "\t\t\t \"numMoves\": " + numMoves + ", \n";
 		stringRep += "\t\t\t \"numTopMoves\": " + numTopMoves + ", \n";
+		stringRep += "\t\t\t \"eta\": " + eta + ", \n";
 		
 		stringRep += "\t\t\t \"moveProbs\": [";
 		for (int i = 0; i < numMoves - 1; i++)
-			stringRep += round(moveProbs[i]) + ",";
-		stringRep += round(moveProbs[numMoves - 1]) + "] \n";
+			stringRep += round(moveProbs[i]) + ", ";
+		stringRep += round(moveProbs[numMoves - 1]) + "], \n";
 		
 		stringRep += "\t\t\t \"moveTopIndexes\": [";
 		for (int i = 0; i < numMoves - 1; i++)
-			stringRep += moveTopIndexes[i] + ",";
-		stringRep += moveTopIndexes[numMoves - 1] + "] \n";
+			stringRep += moveTopIndexes[i] + ", ";
+		stringRep += moveTopIndexes[numMoves - 1] + "], \n";
 		
 		stringRep += "\t\t\t \"topMoves\": [";
 		for (int i = 0; i < numTopMoves - 1; i++)
-			stringRep += topMoves[i] + ",";
-		stringRep += topMoves[numTopMoves - 1] + "] \n";
+			stringRep += topMoves[i] + ", ";
+		stringRep += topMoves[numTopMoves - 1] + "], \n";
+		
+		stringRep += "\t\t\t \"lastTopIndex\": " + lastTopIndex + " \n";
 		
 		stringRep += "\t\t }";
 		return stringRep;
