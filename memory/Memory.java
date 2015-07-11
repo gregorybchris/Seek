@@ -55,6 +55,7 @@ public class Memory {
 
 	/*
 	 * Gets one of the top most probable movements for the given location
+	 * 	Note: this output is non-deterministic
 	 */
 	public int get(int x, int y) {
 		assert(x >= 0 && x <= width && y >= 0 && y <= height);
