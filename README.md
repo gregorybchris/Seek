@@ -7,21 +7,21 @@ Various constants may be adjusted to fit different circumstances:
 
 ```java
 ~ ~ Width and height of screen in pixels ~ ~
-public static final int WIDTH = 600;
-public static final int HEIGHT = 600;
+WIDTH = 600;
+HEIGHT = 600;
 
 ~ ~ Rows and columns to divide the screen into processing cells ~ ~
-public static final int ROWS = 30;
-public static final int COLS = 20;
+ROWS = 30;
+COLS = 20;
 
 ~ ~ The number of directions of travel possible ~ ~
-public static final int NUM_MOVEMENTS = 5;
+NUM_MOVEMENTS = 5;
 
 ~ ~ The number of most probable movements kept ready to access ~ ~
-public static final int NUM_TOP_VALUES = 3;
+NUM_TOP_VALUES = 3;
 
 ~ ~ Determines how aggressively the algorithm learns ~ ~
-public static final double ETA = 0.07;
+ETA = 0.07;
 ```
 
 These circumstances are induced when screen setups present the user with a spatially related goal. When the user attempts to achieve that spatially related goal somewhat obvious patterns of movement are implied and subsequently followed. These patterns are what the computer will learn to predict.
