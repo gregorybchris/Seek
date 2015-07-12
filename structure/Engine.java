@@ -3,9 +3,9 @@ package structure;
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
 
+import memory.Memory;
 import actors.Bot;
 import actors.Player;
-import memory.Memory;
 import constants.AC;
 import constants.GC;
 import constants.MC;
@@ -35,6 +35,7 @@ public class Engine {
 	public void update() {
 		updatePlayer();
 		updateBots();
+		checkKeyInputs();
 	}
 
 	/*
@@ -155,5 +156,15 @@ public class Engine {
 			position.y = 0;
 		if (position.y >= GC.SCREEN_HEIGHT)
 			position.y = GC.SCREEN_HEIGHT - 1;
+	}
+	
+	/*
+	 * Checks for all relevant current key events and performs their actions
+	 */
+	private void checkKeyInputs() {
+		if (iodata.keyAccess(KeyEvent.VK_ESCAPE))
+			System.exit(0);
+		if (iodata.keyAccess(KeyEvent.VK_R))
+			map.reset();
 	}
 }

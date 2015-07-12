@@ -24,6 +24,16 @@ public class Map {
 	}
 	
 	/*
+	 * Resets the map to the inital state
+	 */
+	public void reset() {
+		bots.clear();
+		
+		setUpPlayer();
+		setUpBots();
+	}
+	
+	/*
 	 * Creates the initial setup of the Player on the screen
 	 */
 	private void setUpPlayer() {
