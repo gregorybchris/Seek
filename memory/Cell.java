@@ -161,7 +161,7 @@ public class Cell {
 	}
 	
 	/*
-	 * Converts the Cell to a JSON object
+	 * Converts the Cell to a stringified JSON object
 	 */
 	public String toJSON() {
 		String stringRep = "\t\t { \n";

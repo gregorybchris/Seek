@@ -2,13 +2,9 @@ package constants;
 
 /* Setup Constants */
 public class SC {
-	/* Width and height of screen in pixels */
-	public static final int WIDTH = 600;
-	public static final int HEIGHT = 600;
-	
 	/* Rows and columns to divide the screen into processing cells */
-	public static final int ROWS = 2;
-	public static final int COLS = 2;
+	public static final int ROWS = 10;
+	public static final int COLS = 10;
 	
 	/* The number of directions of travel possible */
 	/* The halted movement (MOVE_H) IS included in this */

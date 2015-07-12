@@ -1,15 +1,11 @@
 # Seek
 Machine Learning Project
 
-In this project I store data about user keyboard movement and use patters in that motion to predict the next motion they will make. Because of variability in movement more data is stored than just the most probable next move. In addition, probabilistic algorithms have the possibility of choosing a less than optimal path that the user might take. This randomness allows for a heatmap-like behavior that is used to direct an learning swarm system.
+In this project I store data about user keyboard movement and use patters in that motion to predict the next motion they will make. Because of variability in movement more data is stored than just the most probable next move. In addition, probabilistic algorithms have the possibility of choosing a less than optimal path that the user might take. This randomness allows for a heatmap-like behavior that is used to direct a learning swarm system.
 
 Various constants may be adjusted to fit different circumstances:
 
 ```java
-~ ~ Width and height of screen in pixels ~ ~
-public static final int WIDTH = 600;
-public static final int HEIGHT = 600;
-
 ~ ~ Rows and columns to divide the screen into processing cells ~ ~
 public static final int ROWS = 30;
 public static final int COLS = 20;

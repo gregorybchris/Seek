@@ -76,7 +76,7 @@ public class Memory implements Serializable {
 	}
 	
 	/*
-	 * Converts the Memory to a JSON object
+	 * Converts the Memory to a stringified JSON object
 	 */
 	public String toJSON() {
 		String stringRep = "{ \n";
