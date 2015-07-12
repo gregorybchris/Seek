@@ -1,10 +1,16 @@
+#!/usr/bin/env bash
+
 # This is a run script for the Seek machine learning project
 # It compiles the project, runs it, and then cleans up the compile files
 
-if [ -d "compiled" ]; then
-  rm -r compiled
-fi
+# Create folder for compiled java bytecode
 mkdir compiled
+
+# Compile the project
 javac -d compiled/ -cp . drivers/GraphicsDriver.java
+
+# Run the project
 java -cp compiled/ drivers/GraphicsDriver
+
+# Clean up compiled java bytecode
 rm -r compiled
