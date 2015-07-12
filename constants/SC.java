@@ -15,4 +15,7 @@ public class SC {
 	
 	/* Determines how aggressively the algorithm learns */
 	public static final double ETA = 0.07;
+	
+	/* The numbers of each type of bot that get created on map creation */
+	public static final int[] BOTS_COUNTS = new int[]{10, 5, 3};//{4, 2, 1};
 }

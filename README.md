@@ -13,7 +13,7 @@ To run the project in the console use the provided run file:
 ./run
 ```
 
-This will compile the java files, run the graphicals for the program, and then clean up the compile files after program termination.
+This will compile the java files, run the graphics for the program, and then clean up the compile files after program termination.
 
 ## Adjusting Settings
 

@@ -6,8 +6,8 @@ import java.util.Random;
 
 import actors.Bot;
 import actors.Player;
-import constants.AC;
 import constants.GC;
+import constants.SC;
 
 public class Map {
 	private Player player;
@@ -24,7 +24,7 @@ public class Map {
 	}
 	
 	/*
-	 * Resets the map to the inital state
+	 * Resets the map to the initial state
 	 */
 	public void reset() {
 		bots.clear();
@@ -49,23 +49,13 @@ public class Map {
 	 */
 	private void setUpBots() {
 		Random random = new Random();
-		int numDrones = 5;
-		int numRunners = 3;
-		int numGurus = 1;
-		for (int i = 0; i < numDrones; i++) {
-			int botX = random.nextInt(GC.SCREEN_WIDTH - 100) + 50;
-			int botY = random.nextInt(GC.SCREEN_HEIGHT - 100) + 50;
-			bots.add(new Bot(AC.DRONE, botX, botY));
-		}
-		for (int i = 0; i < numRunners; i++) {
-			int botX = random.nextInt(GC.SCREEN_WIDTH - 100) + 50;
-			int botY = random.nextInt(GC.SCREEN_HEIGHT - 100) + 50;
-			bots.add(new Bot(AC.RUNNER, botX, botY));
-		}
-		for (int i = 0; i < numGurus; i++) {
-			int botX = random.nextInt(GC.SCREEN_WIDTH - 100) + 50;
-			int botY = random.nextInt(GC.SCREEN_HEIGHT - 100) + 50;
-			bots.add(new Bot(AC.GURU, botX, botY));
+
+		for (int type = 0; type < SC.BOTS_COUNTS.length; type++) {
+			for (int i = 0; i < SC.BOTS_COUNTS[type]; i++) {
+				int botX = random.nextInt(GC.SCREEN_WIDTH - 100) + 50;
+				int botY = random.nextInt(GC.SCREEN_HEIGHT - 100) + 50;
+				bots.add(new Bot(type, botX, botY));
+			}
 		}
 	}
 	

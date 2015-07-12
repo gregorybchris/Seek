@@ -71,6 +71,19 @@ public class Engine {
 			}
 		}
 		//TODO: Add more actions for intercardinal movements
+		
+		Iterator<Bot> botsCollisionIterator = map.getBotsIterator();
+		while (botsCollisionIterator.hasNext()) {
+			Bot bot = botsCollisionIterator.next();
+			Point botPosition = bot.getPosition();
+			int botRadius = GC.BOT_RADII[bot.getType()];
+			
+			int distance = botPosition.distance(playerPosition);
+			if (distance < GC.PLAYER_RADIUS + botRadius) {
+				//TODO: Maybe do something if the player got caught
+			}
+		}
+		
 	}
 
 	/*
@@ -81,9 +94,9 @@ public class Engine {
 	private void updateBots() {
 		Player player = map.getPlayer();
 		Point playerPosition = player.getPosition();
-		Iterator<Bot> botsIterator = map.getBotsIterator();
-		while (botsIterator.hasNext()) {
-			Bot bot = botsIterator.next();
+		Iterator<Bot> botsMovementIterator = map.getBotsIterator();
+		while (botsMovementIterator.hasNext()) {
+			Bot bot = botsMovementIterator.next();
 			Point botPosition = bot.getPosition();
 			
 			int foresight = bot.getForesight();
@@ -105,6 +118,46 @@ public class Engine {
 			//TODO: Add logic for if bot can get to the place where 
 			//	it thinks the player will be before the player can get there
 			//	then go there instead of continuing predictions
+		}
+		
+		Iterator<Bot> botsCollisionIteratorI = map.getBotsIterator();
+		int botI = 0;
+		while (botsCollisionIteratorI.hasNext()) {
+			Bot iBot = botsCollisionIteratorI.next();
+			Iterator<Bot> botsCollisionIteratorJ = map.getBotsIterator();
+			int botJ = 0;
+			while (botsCollisionIteratorJ.hasNext()) {
+				Bot jBot = botsCollisionIteratorJ.next();
+				if (botI != botJ)
+					fixBotCollision(iBot, jBot);
+				botJ++;
+			}
+			botI++;
+		}
+	}
+	
+	/*
+	 * Makes sure that two bots do not collide
+	 */
+	private void fixBotCollision(Bot botA, Bot botB) {
+		Point botAPosition = botA.getPosition();
+		Point botBPosition = botB.getPosition();
+		int botARadius = GC.BOT_RADII[botA.getType()];
+		int botBRadius = GC.BOT_RADII[botB.getType()];
+		
+		int distance = botAPosition.distance(botBPosition);
+		int idealSpacing = botARadius + botBRadius + GC.BOT_SPACING;
+		if (distance < idealSpacing) {
+			double angleA = botAPosition.angle(botBPosition);
+			double angleB = botBPosition.angle(botAPosition);
+			
+			int repulsion = (int)(1.0 / distance * idealSpacing);
+			int dxA = (int)(Math.cos(angleA) * repulsion);
+			int dyA = (int)(Math.sin(angleA) * repulsion);
+			int dxB = (int)(Math.cos(angleB) * repulsion);
+			int dyB = (int)(Math.sin(angleB) * repulsion);
+			botA.move(dxA, dyA);
+			botB.move(dxB, dyB);
 		}
 	}
 
