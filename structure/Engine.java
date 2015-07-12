@@ -3,15 +3,15 @@ package structure;
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
 
+import actors.Bot;
+import actors.Player;
 import memory.Memory;
 import constants.AC;
 import constants.GC;
 import constants.MC;
 import constants.SC;
-import data.Bot;
 import data.IOData;
 import data.Map;
-import data.Player;
 import data.Point;
 
 public class Engine {

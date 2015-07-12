@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+import actors.Bot;
+import actors.Player;
 import constants.AC;
 import constants.GC;
 

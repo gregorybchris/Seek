@@ -1,0 +1,10 @@
+# This is a run script for the Seek machine learning project
+# It compiles the project, runs it, and then cleans up the compile files
+
+if [ -d "compiled" ]; then
+  rm -r compiled
+fi
+mkdir compiled
+javac -d compiled/ -cp . drivers/GraphicsDriver.java
+java -cp compiled/ drivers/GraphicsDriver
+rm -r compiled

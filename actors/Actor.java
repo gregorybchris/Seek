@@ -1,4 +1,6 @@
-package data;
+package actors;
+
+import data.Point;
 
 public abstract class Actor {
 	protected Point position = new Point();

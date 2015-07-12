@@ -12,10 +12,10 @@ import java.util.Iterator;
 
 import javax.swing.JPanel;
 
+import actors.Bot;
 import constants.DC;
 import constants.GC;
 import constants.SC;
-import data.Bot;
 import data.IOData;
 import data.Map;
 
