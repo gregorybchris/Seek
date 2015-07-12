@@ -1,5 +1,6 @@
 package constants;
 
+/* Setup Constants */
 public class SC {
 	/* Width and height of screen in pixels */
 	public static final int WIDTH = 600;

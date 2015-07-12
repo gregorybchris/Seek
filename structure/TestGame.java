@@ -1,4 +1,4 @@
-package drivers;
+package structure;
 
 import java.util.Scanner;
 
@@ -6,7 +6,7 @@ import memory.Memory;
 import constants.MC;
 import constants.SC;
 
-public class Game {
+public class TestGame {
 	private Scanner in;
 	private Memory memory;
 	private int x;
@@ -16,7 +16,7 @@ public class Game {
 	/*
 	 * Game constructor
 	 */
-	public Game() {
+	public TestGame() {
 		in = new Scanner(System.in);
 		memory = new Memory(SC.WIDTH, SC.HEIGHT, SC.ROWS, SC.COLS, 
 				SC.NUM_MOVEMENTS, SC.NUM_TOP_VALUES, SC.ETA);

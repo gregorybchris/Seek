@@ -1,5 +1,6 @@
 package constants;
 
+/* Movement Constants */
 public class MC {
 	/* Halt movement */
 	public static final int MOVE_H = 0;

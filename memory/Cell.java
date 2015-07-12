@@ -9,16 +9,16 @@ public class Cell {
 	private int numTopMoves;
 	private double eta;
 
-	/* Probabilities of each move occuring */
+	/* Probabilities of each movement occurring */
 	private double[] moveProbs;
 
-	/* Indexes for each move in the topMoves list */
+	/* Indexes for each movement in the topMoves list */
 	private int[] moveTopIndexes;
 
-	/* A sorted list of the most probable moves */
+	/* A sorted list of the most probable movements */
 	private int[] topMoves;
 
-	/* The index of the least probable move in the topMoves list */
+	/* The index of the least probable movement in the topMoves list */
 	private int lastTopIndex;
 
 	/*
@@ -88,7 +88,7 @@ public class Cell {
 	private void addToTops(int mv) {
 		int bubbleStartIndex = -1;
 		
-		/* Make sure that the move is somewhere in */
+		/* Make sure that the movement is somewhere in */
 		/*  topMoves if it should be and set the location to start sorting */
 		/* If the new movement is already in topMoves */
 		if (moveTopIndexes[mv] != -1)
@@ -117,7 +117,7 @@ public class Cell {
 
 		/* If the new movement is in topMoves and ready to be sorted */
 		if (moveTopIndexes[mv] != -1) {
-			/* Bubble the new move up through topMoves to put it in place */
+			/* Bubble the new movement up through topMoves into place */
 			for (int i = bubbleStartIndex; i > 0; i--) {
 				if (moveProbs[mv] > moveProbs[topMoves[i - 1]]) {
 					topMoves[i] = topMoves[i - 1];
