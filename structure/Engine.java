@@ -92,7 +92,6 @@ public class Engine {
 					(int)(Math.cos(angle) * (double)(GC.PLAYER_RADIUS + botRadius) - distance),
 					(int)(Math.sin(angle) * (double)(GC.PLAYER_RADIUS + botRadius) - distance)
 				);
-				*/
 			}
 		}
 		*/
