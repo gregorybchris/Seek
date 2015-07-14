@@ -14,9 +14,9 @@ public class GC {
 	public static final int SCREEN_WIDTH = 640;
 	public static final int SCREEN_HEIGHT = 600;
 	public static final int WINDOW_BAR_HEIGHT = 22;
-	public static final int BOT_SPACING = 10;
-	public static final int PLAYER_RADIUS = 16;
-	public static final int[] BOT_RADII = new int[] {15, 12, 10};
+	public static final int BOT_SPACING = 3;//10;
+	public static final int PLAYER_RADIUS = 12;//16;
+	public static final int[] BOT_RADII = new int[] { 10, 8, 5 };//{15, 12, 10};
 	public static final Dimension PLAYER_DIMENSION = new Dimension(
 			PLAYER_RADIUS * 2, PLAYER_RADIUS * 2);
 	public static final Dimension[] BOT_DIMENSIONS = new Dimension[] {
@@ -35,9 +35,13 @@ public class GC {
 	public static final Color PLAYER_COLOR = new Color(75, 120, 200);
 	public static final Color ACTOR_BORDER = new Color(70, 70, 70);
 	public static final Color CELL_BOUNDS = new Color(80, 80, 80);
+	public static final Color DIRECTION_COLOR = new Color(30, 200, 30);
+	public static final Color PROB_DIRECTION_COLOR = new Color(200, 30, 30);
 	
 	/* Strokes */
 	public static final BasicStroke DEFAULT_STROKE = new BasicStroke(1);
 	public static final BasicStroke ACTOR_BORDER_STROKE = new BasicStroke(3);
 	public static final BasicStroke CELL_BOUNDS_STROKE = new BasicStroke(5);
+	public static final BasicStroke DIRECTION_STROKE = new BasicStroke(3);
+	public static final BasicStroke PROB_DIRECTION_STROKE = new BasicStroke(1);
 }

@@ -76,18 +76,42 @@ public class Point {
 	/*
 	 * Gets the distance between this Point and another Point
 	 */
-	public int distance(Point other) {
-		return (int)Math.sqrt((this.x - other.x) * (this.x - other.x) + 
-				(this.y - other.y) * (this.y - other.y));
-	}
+	public int distance(Point other) { return (int)Math.sqrt(distance2(other)); }
+
+	/*
+	 * Gets the square of the distance between this Point and another Point
+	 */
+	public int distance2(Point other) { return dx(other) * dx(other) + dy(other) * dy(other); }
+
+	/*
+	 * Gets the x-distance between this Point and another Point
+	 */
+	public int dx(Point other) { return x - other.x; }
+
+	/*
+	 * Gets the x-distance between this Point and an x-coordinate
+	 */
+	public int dx(int otherX) { return x - otherX; }	
+
+	/*
+	 * Gets the y-distance between this Point and another Point
+	 */
+	public int dy(Point other) { return y - other.y; }
+
+	/*
+	 * Gets the y-distance between this Point and an x-coordinate
+	 */
+	public int dy(int otherY) { return y - otherY; }
 
 	/*
 	 * Gets the distance between this Point and an (x, y) pair
 	 */
-	public int distance(int x, int y) {
-		return (int)Math.sqrt((this.x - x) * (this.x - x) + 
-				(this.y - y) * (this.y - y));
-	}
+	public int distance(int x, int y) { return (int)Math.sqrt(distance2(x, y)); }
+
+	/*
+	 * Gets the square of the distance between this Point and an (x, y) pair
+	 */
+	public int distance2(int x, int y) { return dx(x) * dx(x) + dy(y) * dy(y); }
 
 	/*
 	 * Moves the (x, y) coordinates of this point over by translation
@@ -102,6 +126,29 @@ public class Point {
 	 */
 	public double angle(Point other) {
 		return Math.atan2(y - other.y, x - other.x);
+	}
+
+	/*
+	* Returns the tangent of the angle between this Point and another Point
+	*/
+	public double tanAngle(Point other) {
+		if(dx(other) == 0)
+			return -1;
+		return dy(other) / dx(other);
+	}
+
+   /*
+	* Returns the sine of the angle between this Point and another Point
+	*/
+	public double sinAngle(Point other) {
+		return dy(other) / distance(other);
+	}
+
+   /*
+	* Returns the cosine of the angle between this Point and another Point
+	*/
+	public double cosAngle(Point other) {
+		return dx(other) / distance(other);
 	}
 
 	@Override

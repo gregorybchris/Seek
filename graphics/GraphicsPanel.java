@@ -16,8 +16,13 @@ import actors.Bot;
 import constants.DC;
 import constants.GC;
 import constants.SC;
+import constants.MC;
 import data.IOData;
 import data.Map;
+
+import structure.Engine;
+import memory.Memory;
+import memory.Cell;
 
 
 public class GraphicsPanel extends JPanel 
@@ -60,6 +65,9 @@ implements KeyListener, MouseListener, MouseMotionListener {
 		if (DC.SHOW_CELL_BOUNDARIES)
 			drawCellBoundaries(g2);
 
+		if(DC.SHOW_DIRECTIONAL_PROBABILITIES)
+			drawProbabilities(g2);
+
 		drawPlayer(g2, map.getPlayer().getX(), map.getPlayer().getY());
 
 		Iterator<Bot> botsIterator = map.getBotsIterator();
@@ -82,6 +90,52 @@ implements KeyListener, MouseListener, MouseMotionListener {
 		for (int y = 0; y < SC.ROWS; y++)
 			g2.drawLine(0, y * rowSize, GC.SCREEN_WIDTH, y * rowSize);
 		g2.setStroke(GC.DEFAULT_STROKE);
+	}
+
+	/*
+	 * Draws lines to indicate the relative probabilities of directions on a cell
+	 */
+	private void drawProbabilities(Graphics2D g2) {
+		int colSize = GC.SCREEN_WIDTH / SC.COLS;
+		int _colSize = colSize / 2;
+		int rowSize = GC.SCREEN_HEIGHT / SC.ROWS;
+		int _rowSize = rowSize / 2;
+		Memory engineMemory = Engine.getEngineMemory();
+		for (int x = 0; x < SC.COLS; x++) {
+			for (int y = 0; y < SC.ROWS; y++) {
+				Cell cell = engineMemory.getCell(x, y);
+				double[] probs = cell.getProbs();
+				int dir = cell.get();
+				
+				int c_x = colSize * x + _colSize;
+				int c_y = GC.SCREEN_HEIGHT - (rowSize * y + _rowSize);
+				
+				g2.setColor(GC.DIRECTION_COLOR);
+				g2.setStroke(GC.DIRECTION_STROKE);
+				g2.drawLine(c_x, c_y, c_x, c_y - (int)(_rowSize * probs[MC.MOVE_N]));
+				g2.drawLine(c_x, c_y, c_x, c_y + (int)(_rowSize * probs[MC.MOVE_S]));
+				g2.drawLine(c_x, c_y, c_x - (int)(_colSize * probs[MC.MOVE_W]), c_y);
+				g2.drawLine(c_x, c_y, c_x + (int)(_colSize * probs[MC.MOVE_E]), c_y);
+
+
+				g2.setColor(GC.PROB_DIRECTION_COLOR);
+				g2.setStroke(GC.PROB_DIRECTION_STROKE);
+				switch(dir) {
+					case MC.MOVE_N:
+					g2.drawLine(c_x, c_y, c_x, c_y - _rowSize);
+					break;
+					case MC.MOVE_S:
+					g2.drawLine(c_x, c_y, c_x, c_y + _rowSize);
+					break;
+					case MC.MOVE_E:
+					g2.drawLine(c_x, c_y, c_x + _rowSize, c_y);
+					break;
+					case MC.MOVE_W:
+					g2.drawLine(c_x, c_y, c_x - _rowSize, c_y);
+					break;
+				}
+			}
+		}
 	}
 
 	/*

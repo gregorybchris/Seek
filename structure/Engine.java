@@ -15,6 +15,7 @@ import data.Map;
 import data.Point;
 
 public class Engine {
+	private static Engine instance;
 	private Map map;
 	private IOData iodata;
 	private Memory memory;
@@ -23,6 +24,7 @@ public class Engine {
 	 * Engine constructor
 	 */
 	public Engine(Map map, IOData iodata, Memory memory) {
+		Engine.instance = this;
 		this.map = map;
 		this.iodata = iodata;
 		this.memory = memory;
@@ -81,6 +83,13 @@ public class Engine {
 			int distance = botPosition.distance(playerPosition);
 			if (distance < GC.PLAYER_RADIUS + botRadius) {
 				//TODO: Maybe do something if the player got caught
+				/*
+				double angle = botPosition.angle(playerPosition);
+				botPosition.translate(
+					(int)(Math.cos(angle) * (double)(GC.PLAYER_RADIUS + botRadius) - distance),
+					(int)(Math.sin(angle) * (double)(GC.PLAYER_RADIUS + botRadius) - distance)
+				);
+				*/
 			}
 		}
 		
@@ -151,7 +160,7 @@ public class Engine {
 			double angleA = botAPosition.angle(botBPosition);
 			double angleB = botBPosition.angle(botAPosition);
 			
-			int repulsion = (int)(1.0 / distance * idealSpacing);
+			int repulsion = (int)(idealSpacing - distance);
 			int dxA = (int)(Math.cos(angleA) * repulsion);
 			int dyA = (int)(Math.sin(angleA) * repulsion);
 			int dxB = (int)(Math.cos(angleB) * repulsion);
@@ -219,5 +228,9 @@ public class Engine {
 			System.exit(0);
 		if (iodata.keyAccess(KeyEvent.VK_R))
 			map.reset();
+	}
+
+	public static Memory getEngineMemory() {
+		return instance.memory;
 	}
 }

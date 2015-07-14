@@ -69,6 +69,10 @@ public class Memory implements Serializable {
 
 		return Cells[CellCol][CellRow].get();
 	}
+
+	public Cell getCell(int x, int y) {
+		return Cells[x][y];
+	}
 	
 	@Override
 	public String toString() {

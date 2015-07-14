@@ -12,7 +12,7 @@ public class Bot extends Actor {
 	public Bot(int type, int x, int y) {
 		this.type = type;
 		this.position.set(x, y);
-		foresight = AC.BOT_FORESIGHTS[type];
+		foresight = AC.BOT_FORESIGHTS[type] + (int)((Math.random() - 0.5) * AC.BOT_FORESIGHTS[type]);
 		speed = AC.BOT_SPEEDS[type];
 	}
 	

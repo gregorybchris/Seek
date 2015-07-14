@@ -61,16 +61,17 @@ public class Cell {
 		assert(mv >= 0 && mv < numMoves);
 
 		/* Make changes if the movement has less than 100% probability */
-		if (moveProbs[mv] != 1.0) {
+		if (moveProbs[mv] < 1.0) {
 			/* Update the probability of the current movement */
-			moveProbs[mv] += eta;
+			double offset = eta * (1.0 - moveProbs[mv]);
+			moveProbs[mv] += offset;
 			if (moveProbs[mv] > 1.0)
 				moveProbs[mv] = 1.0;
 
 			/* Update the probability of all other movements */
-			double offset = eta / numMoves;
+			double _offset = offset / numMoves;
 			for (int i = 0; i < numMoves; i++) {
-				if (moveProbs[i] != 0.0 && i != mv) {
+				if (moveProbs[i] > 0.0 && i != mv) {
 					moveProbs[i] -= offset;
 					if (moveProbs[i] < 0.0)
 						moveProbs[i] = 0.0;
@@ -143,11 +144,15 @@ public class Cell {
 		
 		double probabilityAccumulator = 0;
 		for (int i = 0; i < numMoves; i++) {
-			probabilityAccumulator += moveProbs[i] / numMoves;
+			probabilityAccumulator += moveProbs[i];// / numMoves;
 			if (randDouble < probabilityAccumulator)
 				return i;
 		}
 		return 0;
+	}
+
+	public double[] getProbs() {
+		return moveProbs;
 	}
 	
 	private double round(double x) {
