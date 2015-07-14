@@ -2,6 +2,8 @@ package memory;
 
 import java.util.Random;
 
+import constants.MC;
+
 public class Cell {
 	private Random random = new Random();
 
@@ -60,25 +62,25 @@ public class Cell {
 	public void put(int mv) {
 		assert(mv >= 0 && mv < numMoves);
 
-		/* Make changes if the movement has less than 100% probability */
-		if (moveProbs[mv] != 1.0) {
-			/* Update the probability of the current movement */
-			moveProbs[mv] += eta;
-			if (moveProbs[mv] > 1.0)
-				moveProbs[mv] = 1.0;
+		if (mv == MC.MOVE_H)
+			System.out.println(this);
 
-			/* Update the probability of all other movements */
-			double offset = eta / numMoves;
-			for (int i = 0; i < numMoves; i++) {
-				if (moveProbs[i] != 0.0 && i != mv) {
-					moveProbs[i] -= offset;
-					if (moveProbs[i] < 0.0)
-						moveProbs[i] = 0.0;
-				}
+		/* Update the probability of the current movement */
+		moveProbs[mv] += eta;
+		if (moveProbs[mv] > 1.0)
+			moveProbs[mv] = 1.0;
+
+		/* Update the probability of all other movements */
+		double offset = eta / numMoves;
+		for (int i = 0; i < numMoves; i++) {
+			if (moveProbs[i] != 0.0 && i != mv) {
+				moveProbs[i] -= offset;
+				if (moveProbs[i] < 0.0)
+					moveProbs[i] = 0.0;
 			}
-
-			addToTops(mv);
 		}
+
+		addToTops(mv);
 	}
 
 	/*
@@ -87,7 +89,7 @@ public class Cell {
 	 */
 	private void addToTops(int mv) {
 		int bubbleStartIndex = -1;
-		
+
 		/* Make sure that the movement is somewhere in */
 		/*  topMoves if it should be and set the location to start sorting */
 		/* If the new movement is already in topMoves */
@@ -140,7 +142,7 @@ public class Cell {
 		int precision = 100;
 		int randInt = random.nextInt(precision);
 		double randDouble = randInt / (double)precision;
-		
+
 		double probabilityAccumulator = 0;
 		for (int i = 0; i < numMoves; i++) {
 			probabilityAccumulator += moveProbs[i] / numMoves;
@@ -149,7 +151,7 @@ public class Cell {
 		}
 		return 0;
 	}
-	
+
 	private double round(double x) {
 		int precision = 1000;
 		return ((int)(x * precision)) / (double)precision;
@@ -159,7 +161,7 @@ public class Cell {
 	public String toString() {
 		return toJSON();
 	}
-	
+
 	/*
 	 * Converts the Cell to a stringified JSON object
 	 */
@@ -168,24 +170,24 @@ public class Cell {
 		stringRep += "\t\t\t \"numMoves\": " + numMoves + ", \n";
 		stringRep += "\t\t\t \"numTopMoves\": " + numTopMoves + ", \n";
 		stringRep += "\t\t\t \"eta\": " + eta + ", \n";
-		
+
 		stringRep += "\t\t\t \"moveProbs\": [";
 		for (int i = 0; i < numMoves - 1; i++)
 			stringRep += round(moveProbs[i]) + ", ";
 		stringRep += round(moveProbs[numMoves - 1]) + "], \n";
-		
+
 		stringRep += "\t\t\t \"moveTopIndexes\": [";
 		for (int i = 0; i < numMoves - 1; i++)
 			stringRep += moveTopIndexes[i] + ", ";
 		stringRep += moveTopIndexes[numMoves - 1] + "], \n";
-		
+
 		stringRep += "\t\t\t \"topMoves\": [";
 		for (int i = 0; i < numTopMoves - 1; i++)
 			stringRep += topMoves[i] + ", ";
 		stringRep += topMoves[numTopMoves - 1] + "], \n";
-		
+
 		stringRep += "\t\t\t \"lastTopIndex\": " + lastTopIndex + " \n";
-		
+
 		stringRep += "\t\t }";
 		return stringRep;
 	}

@@ -11,8 +11,8 @@ public class GC {
 	public static final int FRAME_RATE = 60;
 	
 	/* Sizes */
-	public static final int SCREEN_WIDTH = 640;
-	public static final int SCREEN_HEIGHT = 600;
+	public static final int SCREEN_WIDTH = 1000;
+	public static final int SCREEN_HEIGHT = 700;
 	public static final int WINDOW_BAR_HEIGHT = 22;
 	public static final int BOT_SPACING = 10;
 	public static final int PLAYER_RADIUS = 16;
