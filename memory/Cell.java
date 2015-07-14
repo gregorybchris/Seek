@@ -154,6 +154,7 @@ public class Cell {
 			if (randDouble < probabilityAccumulator)
 				return i;
 		}
+
 		return 0;
 	}
 
