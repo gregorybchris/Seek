@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Chris Gregory 2015
 
 # This is a run script for the Seek machine learning project
 # It compiles the project, runs it, and then cleans up the compile files
