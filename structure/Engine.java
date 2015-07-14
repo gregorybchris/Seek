@@ -71,15 +71,18 @@ public class Engine {
 					setToClosestInBounds(playerPosition);
 				memory.put(playerPosition.x, playerPosition.y, MC.MOVE_E);
 			}
+			else
+				memory.put(playerPosition.x, playerPosition.y, MC.MOVE_H);
 		}
 		//TODO: Add more actions for intercardinal movements
-		
+
+		/*
 		Iterator<Bot> botsCollisionIterator = map.getBotsIterator();
 		while (botsCollisionIterator.hasNext()) {
 			Bot bot = botsCollisionIterator.next();
 			Point botPosition = bot.getPosition();
 			int botRadius = GC.BOT_RADII[bot.getType()];
-			
+
 			int distance = botPosition.distance(playerPosition);
 			if (distance < GC.PLAYER_RADIUS + botRadius) {
 				//TODO: Maybe do something if the player got caught
@@ -92,7 +95,7 @@ public class Engine {
 				*/
 			}
 		}
-		
+		*/
 	}
 
 	/*
@@ -107,7 +110,7 @@ public class Engine {
 		while (botsMovementIterator.hasNext()) {
 			Bot bot = botsMovementIterator.next();
 			Point botPosition = bot.getPosition();
-			
+
 			int foresight = bot.getForesight();
 			Point prediction = new Point(playerPosition);
 			for (int i = 0; i < foresight; i++) {
@@ -116,19 +119,26 @@ public class Engine {
 						nextMovement, player.getSpeed());
 				if (!isInBounds(prediction))
 					setToClosestInBounds(prediction);
+
+				double botTime = botPosition.distance(prediction) / 
+						AC.BOT_SPEEDS[bot.getType()];
+				double playerTime = playerPosition.distance(prediction) / 
+						player.getSpeed();
+				if (botTime < playerTime)
+					break;
 			}
-			
+
 			double angle = prediction.angle(botPosition);
 			int botSpeed = bot.getSpeed();
 			int dx = (int)(Math.cos(angle) * botSpeed);
 			int dy = (int)(Math.sin(angle) * botSpeed);
 			bot.move(dx, dy);
-			
+
 			//TODO: Add logic for if bot can get to the place where 
 			//	it thinks the player will be before the player can get there
 			//	then go there instead of continuing predictions
 		}
-		
+
 		Iterator<Bot> botsCollisionIteratorI = map.getBotsIterator();
 		int botI = 0;
 		while (botsCollisionIteratorI.hasNext()) {
@@ -144,7 +154,7 @@ public class Engine {
 			botI++;
 		}
 	}
-	
+
 	/*
 	 * Makes sure that two bots do not collide
 	 */
@@ -153,13 +163,13 @@ public class Engine {
 		Point botBPosition = botB.getPosition();
 		int botARadius = GC.BOT_RADII[botA.getType()];
 		int botBRadius = GC.BOT_RADII[botB.getType()];
-		
+
 		int distance = botAPosition.distance(botBPosition);
 		int idealSpacing = botARadius + botBRadius + GC.BOT_SPACING;
 		if (distance < idealSpacing) {
 			double angleA = botAPosition.angle(botBPosition);
 			double angleB = botBPosition.angle(botAPosition);
-			
+
 			int repulsion = (int)(idealSpacing - distance);
 			int dxA = (int)(Math.cos(angleA) * repulsion);
 			int dyA = (int)(Math.sin(angleA) * repulsion);
@@ -193,10 +203,10 @@ public class Engine {
 		default:
 			break;
 		}
-		
+
 		//TODO: Add more actions for intercardinal movements
 	}
-	
+
 	/*
 	 * Returns true if the point provided is within the screen bounds
 	 */
@@ -205,7 +215,7 @@ public class Engine {
 		int y = position.y;
 		return x >= 0 && x < GC.SCREEN_WIDTH && y >= 0 && y < GC.SCREEN_HEIGHT;
 	}
-	
+
 	/*
 	 * Adjusts a point to be the closest point to it, but in the screen bounds
 	 */
@@ -219,7 +229,7 @@ public class Engine {
 		if (position.y >= GC.SCREEN_HEIGHT)
 			position.y = GC.SCREEN_HEIGHT - 1;
 	}
-	
+
 	/*
 	 * Checks for all relevant current key events and performs their actions
 	 */

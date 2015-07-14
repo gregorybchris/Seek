@@ -2,6 +2,8 @@ package memory;
 
 import java.util.Random;
 
+import constants.MC;
+
 public class Cell {
 	private Random random = new Random();
 
@@ -37,7 +39,7 @@ public class Cell {
 		this.eta = eta;
 
 		moveProbs = new double[numMoves];
-		moveProbs[0] = 1.0;
+		moveProbs[MC.MOVE_H] = 1.0;
 
 		moveTopIndexes = new int[numMoves];
 		for (int i = 0; i < numMoves; i++)
@@ -59,27 +61,31 @@ public class Cell {
 	 */
 	public void put(int mv) {
 		assert(mv >= 0 && mv < numMoves);
-
+		
 		/* Make changes if the movement has less than 100% probability */
-		if (moveProbs[mv] < 1.0) {
-			/* Update the probability of the current movement */
-			double offset = eta * (1.0 - moveProbs[mv]);
-			moveProbs[mv] += offset;
-			if (moveProbs[mv] > 1.0)
-				moveProbs[mv] = 1.0;
+		if(moveProbs[mv] == 1.0)
+			return;
 
-			/* Update the probability of all other movements */
-			double _offset = offset / numMoves;
-			for (int i = 0; i < numMoves; i++) {
-				if (moveProbs[i] > 0.0 && i != mv) {
-					moveProbs[i] -= offset;
-					if (moveProbs[i] < 0.0)
-						moveProbs[i] = 0.0;
-				}
-			}
+		/* Update the probability of the current movement */
+		double offset = eta * (1.0 - moveProbs[mv]); 	// Maybe this is better? Otherwise just use eta. 
+														// I have a couple of ideas for this.
+		
+		moveProbs[mv] += offset;
+		if (moveProbs[mv] > 1.0) // Just in case of rounding error
+			moveProbs[mv] = 1.0;
 
-			addToTops(mv);
+		/* Update the probability of all other movements */
+		double _offset = offset / numMoves;
+		for (int i = 0; i < numMoves; i++) {
+			if (moveProbs[i] == 0.0 || i != mv)
+				continue;
+
+			moveProbs[i] -= _offset;
+			if (moveProbs[i] < 0.0) // Just in case of rounding error
+				moveProbs[i] = 0.0;
 		}
+
+		addToTops(mv);
 	}
 
 	/*
@@ -88,7 +94,7 @@ public class Cell {
 	 */
 	private void addToTops(int mv) {
 		int bubbleStartIndex = -1;
-		
+
 		/* Make sure that the movement is somewhere in */
 		/*  topMoves if it should be and set the location to start sorting */
 		/* If the new movement is already in topMoves */
@@ -141,7 +147,7 @@ public class Cell {
 		int precision = 100;
 		int randInt = random.nextInt(precision);
 		double randDouble = randInt / (double)precision;
-		
+
 		double probabilityAccumulator = 0;
 		for (int i = 0; i < numMoves; i++) {
 			probabilityAccumulator += moveProbs[i];// / numMoves;
@@ -164,7 +170,7 @@ public class Cell {
 	public String toString() {
 		return toJSON();
 	}
-	
+
 	/*
 	 * Converts the Cell to a stringified JSON object
 	 */
@@ -173,24 +179,24 @@ public class Cell {
 		stringRep += "\t\t\t \"numMoves\": " + numMoves + ", \n";
 		stringRep += "\t\t\t \"numTopMoves\": " + numTopMoves + ", \n";
 		stringRep += "\t\t\t \"eta\": " + eta + ", \n";
-		
+
 		stringRep += "\t\t\t \"moveProbs\": [";
 		for (int i = 0; i < numMoves - 1; i++)
 			stringRep += round(moveProbs[i]) + ", ";
 		stringRep += round(moveProbs[numMoves - 1]) + "], \n";
-		
+
 		stringRep += "\t\t\t \"moveTopIndexes\": [";
 		for (int i = 0; i < numMoves - 1; i++)
 			stringRep += moveTopIndexes[i] + ", ";
 		stringRep += moveTopIndexes[numMoves - 1] + "], \n";
-		
+
 		stringRep += "\t\t\t \"topMoves\": [";
 		for (int i = 0; i < numTopMoves - 1; i++)
 			stringRep += topMoves[i] + ", ";
 		stringRep += topMoves[numTopMoves - 1] + "], \n";
-		
+
 		stringRep += "\t\t\t \"lastTopIndex\": " + lastTopIndex + " \n";
-		
+
 		stringRep += "\t\t }";
 		return stringRep;
 	}
