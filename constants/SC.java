@@ -13,9 +13,9 @@ public class SC {
 	/* The number of most probable movements to track */
 	public static final int NUM_TOP_VALUES = 5;
 	
-	/* Determines how aggressively the algorithm learns */
-	public static final double ETA = 0.20;
+	/* Determines how aggressively the algorithm learns, from 0.0 to 1.0 */
+	public static final double ETA = 0.02;
 	
 	/* The numbers of each type of bot that get created on map creation */
-	public static final int[] BOTS_COUNTS = new int[]{1, 0, 1};
+	public static final int[] BOTS_COUNTS = new int[]{1, 0, 1};//{3, 20, 80};//{10, 5, 3};//{4, 2, 1};
 }

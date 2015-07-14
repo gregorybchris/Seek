@@ -39,7 +39,7 @@ public class Cell {
 		this.eta = eta;
 
 		moveProbs = new double[numMoves];
-		moveProbs[0] = 1.0;
+		moveProbs[MC.MOVE_H] = 1.0;
 
 		moveTopIndexes = new int[numMoves];
 		for (int i = 0; i < numMoves; i++)
@@ -61,23 +61,28 @@ public class Cell {
 	 */
 	public void put(int mv) {
 		assert(mv >= 0 && mv < numMoves);
-
-		if (mv == MC.MOVE_H)
-			System.out.println(this);
+		
+		/* Make changes if the movement has less than 100% probability */
+		if(moveProbs[mv] == 1.0)
+			return;
 
 		/* Update the probability of the current movement */
-		moveProbs[mv] += eta;
-		if (moveProbs[mv] > 1.0)
+		double offset = eta * (1.0 - moveProbs[mv]); 	// Maybe this is better? Otherwise just use eta. 
+														// I have a couple of ideas for this.
+		
+		moveProbs[mv] += offset;
+		if (moveProbs[mv] > 1.0) // Just in case of rounding error
 			moveProbs[mv] = 1.0;
 
 		/* Update the probability of all other movements */
-		double offset = eta / numMoves;
+		double _offset = offset / numMoves;
 		for (int i = 0; i < numMoves; i++) {
-			if (moveProbs[i] != 0.0 && i != mv) {
-				moveProbs[i] -= offset;
-				if (moveProbs[i] < 0.0)
-					moveProbs[i] = 0.0;
-			}
+			if (moveProbs[i] == 0.0 || i != mv)
+				continue;
+
+			moveProbs[i] -= _offset;
+			if (moveProbs[i] < 0.0) // Just in case of rounding error
+				moveProbs[i] = 0.0;
 		}
 
 		addToTops(mv);
@@ -145,13 +150,18 @@ public class Cell {
 
 		double probabilityAccumulator = 0;
 		for (int i = 0; i < numMoves; i++) {
-			probabilityAccumulator += moveProbs[i] / numMoves;
+			probabilityAccumulator += moveProbs[i];// / numMoves;
 			if (randDouble < probabilityAccumulator)
 				return i;
 		}
+
 		return 0;
 	}
 
+	public double[] getProbs() {
+		return moveProbs;
+	}
+	
 	private double round(double x) {
 		int precision = 1000;
 		return ((int)(x * precision)) / (double)precision;
